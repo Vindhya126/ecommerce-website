@@ -1,49 +1,75 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyStore - Cart</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MyStore - Cart</title>
 
-<body class="bg-slate-900 text-white min-h-screen">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
 
-  <!-- Navbar -->
-  <nav class="flex items-center justify-between bg-emerald-600 px-8 py-4 shadow-lg">
-    <a href="index.html" class="text-2xl font-bold tracking-wide">
-      MyStore
-    </a>
-
-    <a
-      href="index.html"
-      class="bg-emerald-500 px-4 py-2 rounded-lg hover:bg-emerald-400 transition"
+  <body class="bg-amber-50 min-h-screen">
+    <!-- Navbar -->
+    <nav
+      class="flex justify-between items-center bg-rose-600 text-white px-8 py-4 shadow-lg"
     >
-      Continue Shopping
-    </a>
-  </nav>
+      <a href="index.html" class="text-2xl font-bold"> MyStore </a>
 
-  <!-- Heading -->
-  <div class="max-w-7xl mx-auto px-6 pt-8">
-    <h2 class="text-4xl font-bold text-white mb-8">
-      Shopping Cart
-    </h2>
-  </div>
+      <a
+        href="index.html"
+        class="bg-white text-rose-600 px-5 py-2 rounded-lg hover:bg-gray-100 transition"
+      >
+        Continue Shopping
+      </a>
+    </nav>
 
-  <!-- Cart Items -->
-  <div
-    id="cart"
-    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-6 max-w-7xl mx-auto"
-  ></div>
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto p-8">
+      <h2 class="text-4xl font-bold text-gray-800 mb-8">Shopping Cart</h2>
 
-  <!-- Total -->
-  <div class="max-w-7xl mx-auto px-6 py-10">
-    <h3
-      class="total text-3xl font-bold text-emerald-400 text-right"
-    ></h3>
-  </div>
+      <div class="grid lg:grid-cols-3 gap-8">
+        <!-- Cart Items -->
+        <div id="cart" class="lg:col-span-2 space-y-6"></div>
 
-  <script src="cart.js"></script>
+        <!-- Bill Summary -->
+        <div
+          id="billSummary"
+          class="bg-white rounded-2xl shadow-lg p-6 h-fit sticky top-8"
+        >
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Bill Summary</h2>
 
-</body>
+          <div class="flex justify-between text-lg mb-4">
+            <span>Subtotal</span>
+            <span id="subtotal">$0</span>
+          </div>
+
+          <div class="flex justify-between text-lg mb-4">
+            <span>Discount</span>
+            <span id="discount" class="text-green-600"> -$0 </span>
+          </div>
+
+          <div class="flex justify-between text-lg mb-4">
+            <span>Shipping</span>
+            <span class="text-green-600"> Free </span>
+          </div>
+
+          <hr class="my-5" />
+
+          <div class="flex justify-between text-2xl font-bold">
+            <span>Total</span>
+
+            <span id="total" class="text-rose-600"> $0 </span>
+          </div>
+
+          <button
+            class="w-full mt-8 bg-rose-600 text-white py-3 rounded-lg hover:bg-rose-700 transition"
+          >
+            Proceed to Checkout
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="cart.js"></script>
+  </body>
 </html>

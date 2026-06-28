@@ -1,51 +1,107 @@
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let totalAmountEl = document.querySelector(".total");
-let totalAmount = 0;
+
 const cartDiv = document.querySelector("#cart");
+
+const subtotalEl = document.querySelector("#subtotal");
+const discountEl = document.querySelector("#discount");
+const totalEl = document.querySelector("#total");
+
+let subtotal = 0;
+let discount = 0;
+
 (async () => {
   try {
-    const response = await fetch(`https://dummyjson.com/products?limit=194`);
+    const response = await fetch("https://dummyjson.com/products?limit=194");
+
     const data = await response.json();
+
     const products = data.products;
-    cart.forEach((element) => {
-      const product = products.find((item) => item.id === element.id);
-      cartDiv.innerHTML += `
-<div class="bg-slate-800 rounded-xl shadow-lg p-5 border border-slate-700 hover:shadow-2xl transition duration-300">
 
-    <img
-        src="${product.thumbnail}"
-        alt="${product.title}"
-        class="w-full h-48 object-fit rounded-lg"
-    >
+    // Empty Cart
+    if (cart.length === 0) {
+      cartDiv.innerHTML = `
+        <div class="bg-white rounded-xl shadow-md p-10 text-center col-span-full">
 
-    <div class="mt-4">
-        <h2 class="text-xl font-semibold text-white">
-            ${product.title}
-        </h2>
+            <h2 class="text-3xl font-bold text-gray-700">
+                Your Cart is Empty
+            </h2>
 
-        <p class="text-emerald-400 font-bold text-2xl mt-3">
-            $${product.price}
-        </p>
-
-        <div class="mt-4 space-y-2 text-slate-300">
-            <p>
-                <span class="font-semibold text-white">Quantity:</span>
-                ${element.quantity}
+            <p class="text-gray-500 mt-4">
+                Add some products from the store.
             </p>
 
-            <p>
-                <span class="font-semibold text-white">Subtotal:</span>
-                <span class="text-emerald-400 font-bold">
-                    $${(product.price * element.quantity).toFixed(2)}
-                </span>
-            </p>
         </div>
+      `;
 
-    </div>
-</div>
-`;
-      totalAmount += product.price * element.quantity;
+      subtotalEl.innerHTML = "$0";
+      discountEl.innerHTML = "-$0";
+      totalEl.innerHTML = "$0";
+
+      return;
+    }
+
+    cart.forEach((item) => {
+      const product = products.find((p) => p.id === item.id);
+
+      const itemSubtotal = product.price * item.quantity;
+
+      const itemDiscount =
+        (product.price * product.discountPercentage * item.quantity) / 100;
+
+      subtotal += itemSubtotal;
+
+      discount += itemDiscount;
+
+      cartDiv.innerHTML += `
+      <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-5">
+
+          <img
+              src="${product.thumbnail}"
+              alt="${product.title}"
+              class="w-full h-52 object-cover rounded-xl"
+          >
+
+          <h2 class="text-xl font-bold text-gray-800 mt-4">
+              ${product.title}
+          </h2>
+
+          <p class="text-amber-600 text-2xl font-bold mt-3">
+              $${product.price}
+          </p>
+
+          <div class="mt-4 text-gray-600 space-y-2">
+
+              <p>
+                  <span class="font-semibold">
+                      Quantity :
+                  </span>
+
+                  ${item.quantity}
+              </p>
+
+              <p>
+                  <span class="font-semibold">
+                      Subtotal :
+                  </span>
+
+                  <span class="text-amber-600 font-bold">
+                      $${itemSubtotal.toFixed(2)}
+                  </span>
+
+              </p>
+
+          </div>
+
+      </div>
+      `;
     });
-    totalAmountEl.innerHTML = `Total Amount: $${totalAmount.toFixed(2)}`;
-  } catch {}
+
+    subtotalEl.innerHTML = `$${subtotal.toFixed(2)}`;
+
+    discountEl.innerHTML = `-$${discount.toFixed(2)}`;
+
+    totalEl.innerHTML = `$${(subtotal - discount).toFixed(2)}`;
+  } catch (error) {
+    console.log(error);
+  }
 })();
